@@ -13,14 +13,14 @@
 </head>
 <body>
 <div class="wrap">
-	<h1><a title="GitHub Link" class="extlink" href="https://github.com/prgmrj/mallzoom.js" target="_blank"><img src="icons/icon-api-extlink.png"></a>mallzoom.js API Developer Guide<span>v20180703</span></h1>
+	<h1><a title="GitHub Repository" class="extlink" href="https://github.com/prgmrj/mallzoom.js" target="_blank"><img src="icons/icon-api-extlink.png"></a>mallzoom.js API Developer Guide<span>v20180703</span></h1>
 	<div class="section">
 		<h2>Overview</h2>
 		<p class="mb10">mallzoom.js is a jQuery image zoom slider plugin for e-commerce websites.</p>
 		<ul class="list-bull">
 			<li>Only works properly on modern web browsers: IE8+, Chrome, Firefox, Opera, etc.</li>
 			<li>jQuery 1.7+ is required to be included in the page before the plugin. <a title="Download jQuery" class="link" href="https://jquery.com/download/" target="_blank">Download jQuery</a></li>			
-			<li>Licensed under GNU GPL Version 3 (Open Source). <a title="License Document" class="link" href="LICENSE" target="_blank">License Document</a></li>
+			<li>Licensed under GNU General Public License, Version 3. <a title="License Document" class="link" href="LICENSE" target="_blank">License Document</a></li>
 		</ul>
 	</div>
 	
@@ -35,6 +35,14 @@
 	</div>
 	
 	<div class="section">
+		<h2>Downloads</h2>
+		<ul class="list-bull">
+			<li>Current release: 1.0 <a title="Download Latest Release Build" class="link" href="#">Package Download</a></li>
+			<li>Debug build: 1.1b <a title="Download Latest Debug Build" class="link" href="#">Package Download</a></li>
+		</ul>
+	</div>
+	
+	<div class="section">
 		<h2>Usage</h2>
 		<pre>
 $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
@@ -44,10 +52,10 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 		<h2>Options</h2>
 		<table class="tbl">
 			<colgroup>
-				<col style="width:15%;">
-				<col style="width:10%;">
-				<col style="width:10%;">
-				<col style="width:65%;">
+				<col style="width:14%;">
+				<col style="width:12%;">
+				<col style="width:12%;">
+				<col style="width:62%;">
 			</colgroup>
 			<thead>
 				<tr>
@@ -60,14 +68,124 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 			<tbody>
 				<tr>
 					<th>ImgFit</th>
-					<td>string</td>
+					<td>String</td>
 					<td>'fit'</td>
-					<td></td>
+					<td>Type of image fitting.<br>
+						['fit'] Fit the longer dimension of each image to its parent<br>
+						['cover'] Crop each image if needed to cover its parent.<br>
+						['stretch'] Stretch both dimension of each image to fill parent.
+					</td>
 				</tr>
 				<tr>
 					<th>outputPos</th>
-					<td>string</td>
-					<td>'fit'</td>
+					<td>String</td>
+					<td>'right'</td>
+					<td>Position of the zoomed output image.<br>
+						['top', 'right', 'bottom', 'left']
+					</td>
+				</tr>
+				<tr>
+					<th>thumbPos</th>
+					<td>String</td>
+					<td>'bottom'</td>
+					<td>Position of thumbnail images.<br>
+						['top', 'right', 'bottom', 'left']
+					</td>
+				</tr>
+				<tr>
+					<th>thumbCnt</th>
+					<td>Integer</td>
+					<td>5</td>
+					<td>Quantity of thumbnails per slider page.</td>
+				</tr>
+				<tr>
+					<th>flagOver</th>
+					<td>String</td>
+					<td>''</td>
+					<td>Source URL of common overlay flag images.</td>
+				</tr>
+				<tr>
+					<th>txtOver</th>
+					<td>String</td>
+					<td>''</td>
+					<td>Common overlay text string.</td>
+				</tr>
+				<tr>
+					<th>zmScale</th>
+					<td>Float</td>
+					<td>0.05</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>zmMax</th>
+					<td>Integer</td>
+					<td>5</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>reverseZm</th>
+					<td>Boolean</td>
+					<td>false</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>noticeTxt</th>
+					<td>String</td>
+					<td>''</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>noticeDur</th>
+					<td>Integer</td>
+					<td>2</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>autoMovNav</th>
+					<td>Boolean</td>
+					<td>true</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>autoHidNav</th>
+					<td>Boolean</td>
+					<td>false</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>separToken</th>
+					<td>String</td>
+					<td>''</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>loadingImg</th>
+					<td>String</td>
+					<td>''</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>imgErr</th>
+					<td>String</td>
+					<td>''</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>thumbErr</th>
+					<td>String</td>
+					<td>''</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>vidErr</th>
+					<td>String</td>
+					<td>''</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>vidBtn</th>
+					<td>String</td>
+					<td>''</td>
 					<td></td>
 				</tr>
 			</tbody>
@@ -84,6 +202,12 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 		
 	<div class="section">
 		<h2>Live Demo</h2>
+		<p>Markup</p>
+		<pre class="mb10">
+&lt;div class="<em>mz-object</em>"&gt;
+    &lt;div class="<em>mz-input</em>"&gt;
+&lt;/div&gt;</pre>
+
 		<!-- Royalty-free video/images from pexels.com & freepngs.com were used for demonstration. -->
 		<!-- Royalty-free icons from github.com/feathericons/feather were used for demonstration. -->
 		<div id="sample1" class="mallzoom-sample">
@@ -111,13 +235,6 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 			<img src="sample/sample05.jpg"
 				data-mz-thumb="sample/thumbnail-not-exist">
 		</div>
-	</div>	
-	
-	<div class="section">
-		<h2>Options</h2>
-	</div>
-	<div class="section">
-		<h2>Limits</h2>
 	</div>
 </div>
 
