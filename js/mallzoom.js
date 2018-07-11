@@ -1,8 +1,9 @@
 /*
 	Title	: mallzoom.js
-	Version	: 20180704
+	Version	: 1.0
 	License	: GPLv3
 	Author	: Inpyo Jeon (prgmrj@gmail.com)
+	GitHub	: https://github.com/prgmrj/mallzoom.js
 */
 
 (function($){
@@ -25,7 +26,6 @@
 			loadingImg	: '', // (URL) Loading Image Source
 			imgErr		: '', // (URL) Onerror Image Source
 			thumbErr	: '', // (URL) Thumbnail Onerror Image Source
-			outputErr	: '', // (URL) Output Onerror Image Source
 			vidErr		: '', // (URL) Video Onerror Image Source
 			vidBtn		: '' // (URL) Video Play Button Image Source
 		}, options),
@@ -46,7 +46,6 @@
 			_loadingImg	= opt.loadingImg,
 			_imgErr		= opt.imgErr,
 			_thumbErr	= opt.thumbErr,
-			_outputErr	= opt.outputErr,
 			_vidErr		= opt.vidErr,
 			_vidBtn		= opt.vidBtn;
 		
@@ -97,23 +96,55 @@
 		}
 		
 		return this.each(function(){
-			var $obj = $(this).addClass('mz-object'),
-				_obj = { // Object Properties
-					width	: $obj.innerWidth(),
-					height	: $obj.innerHeight(),
-					ratio	: $obj.innerWidth() / $obj.innerHeight(),
-					bdwidth	: parseInt($obj.css('border-top-width')),
-					bdstyle	: $obj.css('border-top-style'),
-					bdcolor	: $obj.css('border-top-color'),
-					bgcolor	: $obj.css('background-color')
+			var $objWrap = $(this).addClass('mz-obj-wrap'),
+				_obj = {
+					width	: $objWrap.innerWidth(),
+					height	: $objWrap.innerHeight(),
+					ratio	: $objWrap.innerWidth() / $objWrap.innerHeight(),
+					bdwidth	: parseInt($objWrap.css('border-top-width')),
+					bdstyle	: $objWrap.css('border-top-style'),
+					bdcolor	: $objWrap.css('border-top-color'),
+					bgcolor	: $objWrap.css('background-color')
 				},
 				_db	= [], // Instant Database
 				_idx = 0, // Current Index
 				_cur = {}; // Cursor Position
 			
-			dbGen(); // Generate Database
+			mkGen();
+			
+			var $vault = $objWrap.find('.mz-vault'),
+				$item = $objWrap.find('.mz-item'),
+				$obj = $objWrap.find('.mz-obj'),
+				$inputWrap = $objWrap.find('.mz-input-wrap'),
+				$overWrap = $objWrap.find('.mz-over-wrap'),
+				$magfWrap = $objWrap.find('.mz-magf-wrap'),
+				$thumbWrap = $objWrap.find('.mz-thumb-wrap'),
+				$thumbList = $objWrap.find('.mz-thumb-list'),
+				$outputWrap = $objWrap.find('.mz-output-wrap');
+			
+			dbGen();
+			thumbGen();
+
+			function mkGen(){
+				var _mk =
+					'<div class="mz-vault"></div>' +
+					'<div class="mz-obj">' +
+						'<div class="mz-input-wrap"></div>' +
+						'<div class="mz-over-wrap"></div>' +
+						'<div class="mz-magf-wrap"></div>' +
+						'<div class="mz-thumb-wrap">' +
+							'<ul class="mz-thumb-list"></ul>' +
+						'</div>' +
+						'<div class="mz-output-wrap"></div>' +
+					'</div>';
+
+				$objWrap.append(_mk).find('img').each(function(i){
+					$(this).addClass('mz-item sl' + i).appendTo('.mz-vault');
+				});
+			}
+			
 			function dbGen(){
-				$obj.find('img').each(function(i){
+				$item.each(function(i){
 					var _data = {};
 					
 					_data.src		= $(this).attr('src'); // Input Image Source
@@ -132,144 +163,11 @@
 				});
 			}
 			
-			mkGen(); // Generate Basic Structure
-			function mkGen(){
-				var _inputStr	= '',
-					_thumbStr	= '',
-					_flagStr	= '',
-					_txtStr		= '';
-				
-				for(var i=0;i<_db.length;i++){
-					var _flagArr = _db[i].flag ? strTrim(_db[i].flag) : [],
-						_txtArr = _db[i].txt ? strTrim(_db[i].txt) : [];
-					
-					if (_db[i].vidsrc) { // Generate Video Tag
-						_inputStr +=
-							'<video class="mz-input-item mz-input-vid"' + (_db[i].vidattr.replace('autoplay', '') || '') + (_db[i].vidposter ? 'poster="' + _db[i].vidposter + '"' : '') + '>' +
-								'<source src="' + _db[i].vidsrc + '" ' + (_db[i].vidtype ? '"type="' + _db[i].vidtype + '" ' : '') + '>' +
-							'Your browser doesn\'t support HTML video.</video>';
-					}					
-					else if (_db[i].tubeid) { // Generate Youtube Iframe
-						_inputStr +=
-							'<div class="mz-input-item mz-input-tube">' +
-								'<iframe src="https://www.youtube.com/embed/' + _db[i].tubeid + '?autoplay=0' + (_db[i].tubeattr.replace('&autoplay=1', '') || '') + '" frameborder="0" allowfullscreen></iframe>' +
-							'</div>';
-					}
-					else
-						_inputStr += // Generate Input Images
-							'<img class="mz-input-item mz-input-img" src="' + _db[i].src + '" onerror="this.src=\''+ _imgErr +'\'">';
-					
-					_thumbStr += // Generate Thumbnail Images
-						'<li class="mz-thumb-imgwrap">' +
-							'<img class="mz-thumb-img" src="' + (_db[i].thumb || _db[i].src) + '" onerror="this.src=\''+ (_thumbErr.length > 0 ? _thumbErr : _imgErr) +'\'">' +
-						'</li>';
-					
-					for(var j=0; j<_flagArr.length; j++){ // Generate Flag Images
-						_flagStr += (_db[i].flag ? '<img class="mz-over-flag-' + i + ' _no' + j + '" src="' + _flagArr[j] + '">' : '');
-					}
-					
-					for(var j=0; j<_txtArr.length; j++){ // Generate Overlay Texts
-						_txtStr +=
-							(_db[i].txt ? '<div class="mz-over-txt-' + i + ' _no' + j + '">' +
-								'<p class="mz-over-txt-p">' + _txtArr[j] + '</p>' +
-							'</div>' : '');
-					}
+			function thumbGen(){
+				for (var i=0; i<_db.length; i++){
+					$thumbList.append('<li class="mz-thumb-item"><img class="mz-thumb" src="' + _db[i].thumb + '"></li>');
 				}
-				
-				var _basicStr = // Compile Structure
-					'<div class="mz-input">' +
-						_inputStr +
-					'</div>' +
-					'<div class="mz-over">' +
-						(_txtOver ? '<div class="mz-over-txt">' +
-							'<p class="mz-over-txt-p">' + _txtOver + '</p>' +
-						'</div>' : '') +
-						(_flagOver ? '<img class="mz-over-flag" src="' + _flagOver + '">' : '') +
-						_flagStr +
-						_txtStr +
-					'</div>' +
-					'<div class="mz-mag">' +
-						'<div class="mz-mag-imgwrap">' +
-							'<img class="mz-mag-img" src="">' +
-						'</div>' +
-					'</div>' +
-					'<div class="mz-thumb">' +
-						'<div class="mz-thumb-wrap">' +
-							'<a class="mz-nav-left" href="javascript:;">&lt;</a>' +
-							'<a class="mz-nav-right" href="javascript:;">&gt;</a>' +
-							'<ul class="mz-thumb-list">' +
-								_thumbStr +
-							'</ul>' +
-						'</div>' +
-					'</div>' +
-					'<div class="mz-output">' +
-						(_noticeTxt ? '<div class="mz-output-noti">' +
-							'<p class="mz-output-noti-p"></p>' +
-						'</div>' : '') +
-						'<div class="mz-output-imgwrap">' +
-							'<img class="mz-output-img" src="">' +
-						'</div>' +
-					'</div>';
-	
-				$obj.append(_basicStr);
-				$obj.children('img').remove(); // Remove Original Images
 			}
-			
-			var $input = $('.mz-input'), $inputImg = $('.mz-input-img'), $inputVid = $('.mz-input-vid'), $inputTube = $('.mz-input-tube'),
-				$over = $('.mz-over'), $overTxt = $('.mz-over-txt'), $overTxtP = $('.mz-over-txt-p'), $overFlag = $('.mz-over-flag'),
-				$mag = $('.mz-mag'), $magImgwrap = $('.mz-mag-imgwrap'), $magImg = $('.mz-mag-img'),
-				$navLeft = $('.mz-nav-left'), $navRight = $('.mz-nav-right'), $thumb = $('.mz-thumb'), $thumbWrap = $('.mz-thumb-wrap'),
-				$thumbList = $('.mz-thumb-list'), $thumbImgwrap = $('.mz-thumb-imgwrap'), $thumbImg = $('.mz-thumb-img'), $output = $('.mz-output'),
-				$outputImgwrap = $('.mz-output-imgwrap'), $outputImg = $('.mz-output-img');
-			
-			elemStyle(); // Set Element Styles
-			function elemStyle(){
-				$thumb.addClass('_' + _thumbPos);
-				
-				switch(_thumbPos){
-					case 'top':
-						$thumb.css({ width: _obj.width + _obj.bdwidth * 2, bottom: _obj.height + _obj.bdwidth, left: -_obj.bdwidth });
-						$thumbWrap.css({ left: ((_obj.width + _obj.bdwidth * 2) - $thumbWrap.outerWidth()) / 2 });
-						break;
-					case 'bottom':
-						$thumb.css({ width: _obj.width + _obj.bdwidth * 2, top: _obj.height + _obj.bdwidth, left: -_obj.bdwidth });
-						$thumbWrap.css({ left: ((_obj.width + _obj.bdwidth * 2) - $thumbWrap.outerWidth()) / 2 });
-						break;
-					case 'left':
-						$thumb.css({ height: _obj.height + _obj.bdwidth * 2, right: _obj.width + _obj.bdwidth, top: -_obj.bdwidth });
-						break;
-					case 'right':
-						$thumb.css({ height: _obj.height + _obj.bdwidth * 2, left: _obj.width + _obj.bdwidth, top: -_obj.bdwidth });
-						break;
-				}
-				
-				$thumbImgwrap.css({
-					width: ($thumbWrap.innerWidth() - parseInt($thumbImgwrap.css('margin-left')) * (_thumbCnt - 1)) / _thumbCnt
-				}).css({
-					height: $thumbImgwrap.innerWidth() / _obj.ratio
-				});
-				
-				$thumbWrap.css({
-					height: $thumbImgwrap.css('height')
-				});
-				
-				$output.addClass('_' + _outputPos).css({
-					width: _obj.width, height: _obj.height,
-					borderWidth: _obj.bdwidth, borderStyle: _obj.bdstyle,
-					borderColor: _obj.bdcolor, backgroundColor: _obj.bgcolor
-				});
-				
-				switch(_outputPos){
-					case 'top': $output.css({ bottom: _obj.height + _obj.bdwidth, left: -_obj.bdwidth }); break;
-					case 'bottom': $output.css({ top: _obj.height + _obj.bdwidth, left: -_obj.bdwidth }); break;
-					case 'left': $output.css({ right: _obj.width + _obj.bdwidth, top: -_obj.bdwidth }); break;
-					case 'right': $output.css({ left: _obj.width + _obj.bdwidth, top: -_obj.bdwidth }); break;
-				}
-				
-				$inputImg.add($thumbImg).each(function(){
-					$(this).on('load', imgFit);
-				});
-			}			
 		});
 	};
 }(jQuery));

@@ -1,46 +1,6 @@
 .mz-object,
 .mz-object * { box-sizing:content-box !important; -webkit-box-sizing:content-box !important; margin:0; padding:0; font-size:0; letter-spacing:0; }
-
-/* Object */
-.mz-object { position:relative; display:block; }
-
-/* Images */
-.mz-object > img { display:none; }
-.mz-input-img,
-.mz-thumb-img,
-.mz-flag-img,
-.mz-output-img { position:absolute; width:auto; height:auto; top:0; left:0; }
-
-/* Input */
-.mz-input { width:100%; height:100%; overflow:hidden; display:block; position:relative; z-index:1; }
-.mz-input-item { position:absolute; }
-.mz-input-item.mz-input-img {  }
-.mz-input-item.mz-input-vid { width:100%; }
-.mz-input-item.mz-input-tube,
-.mz-input-item.mz-input-tube iframe { width:100%; height:100%; background:#000; }
-
-/* Overlay */
-.mz-over { position:absolute; top:0; left:0; z-index:5; }
-
-/* Thumbnail */
-.mz-thumb { position:absolute; display:block; overflow:hidden; z-index:5; width:auto; height:auto; }
-.mz-thumb._top { margin-bottom:10px; }
-.mz-thumb._bottom { margin-top:10px; }
-.mz-thumb._left { margin-right:10px; }
-.mz-thumb._right { margin-left:10px; }
-.mz-thumb-wrap { display:block; }
-.mz-thumb._top .mz-thumb-wrap,
-.mz-thumb._bottom .mz-thumb-wrap { width:90%; }
-.mz-thumb._left .mz-thumb-wrap,
-.mz-thumb._right .mz-thumb-wrap { height:90%; }
-.mz-thumb-list { display:block; position:relative; white-space:nowrap; }
-.mz-thumb-imgwrap { overflow:hidden; position:relative; display:inline-block; margin-left:10px; }
-.mz-thumb-imgwrap:first-child { margin-left:0; }
-.mz-thumb-img { position:absolute; }
-
-/* Output */
-.mz-output { position:absolute; display:block; overflow:hidden; z-index:5; }
-.mz-output._top { margin-bottom:10px; }
-.mz-output._bottom { margin-top:10px; }
-.mz-output._left { margin-right:10px; }
-.mz-output._right { margin-left:10px; }
+.mz-object-wrap, .mz-object { position:relative; display:block; }
+.mz-object-wrap > img, .mz-vault { display:none; }
+.mz-thumb-item { overflow:hidden; }
+.mz-thumb { position:absolute; top:0; left:0; width:0; height:0; }

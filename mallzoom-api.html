@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="css/api.css">
 	<link rel="stylesheet" href="css/mallzoom.css">
 	<script src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
+	<script src="js/api.js"></script>
 	<script src="js/mallzoom.js"></script>
 	<style>
 		#sample1 { width:400px; height:300px; border:4px solid #999; }
@@ -13,7 +14,7 @@
 </head>
 <body>
 <div class="wrap">
-	<h1><a title="GitHub Repository" class="extlink" href="https://github.com/prgmrj/mallzoom.js" target="_blank"><img src="icons/icon-api-extlink.png"></a>mallzoom.js API Developer Guide<span>v20180703</span></h1>
+	<h1><a title="GitHub Repository" class="extlink" href="https://github.com/prgmrj/mallzoom.js" target="_blank"><img src="icons/icon-api-extlink.png"></a>mallzoom.js API Developer Guide<span>20180703</span></h1>
 	<div class="section">
 		<h2>Overview</h2>
 		<p class="mb10">mallzoom.js is a jQuery image zoom slider plugin for e-commerce websites.</p>
@@ -37,8 +38,8 @@
 	<div class="section">
 		<h2>Downloads</h2>
 		<ul class="list-bull">
-			<li>Current release: 1.0 <a title="Download Latest Release Build" class="link" href="#">Package Download</a></li>
-			<li>Debug build: 1.1b <a title="Download Latest Debug Build" class="link" href="#">Package Download</a></li>
+			<li>Current release: 1.0 <a title="Download Latest Release Build" class="link" href="version/j-labs_mallzoom_1.0.zip">Download</a></li>
+			<li>Debug build(Beta): 1.1b <a title="Download Latest Debug Build" class="link" href="version/j-labs_mallzoom_1.0b.zip">Download</a></li>
 		</ul>
 	</div>
 	
@@ -70,26 +71,26 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 					<th>ImgFit</th>
 					<td>String</td>
 					<td>'fit'</td>
-					<td>Type of image fitting.<br>
-						['fit'] Fit the longer dimension of each image to its parent<br>
-						['cover'] Crop each image if needed to cover its parent.<br>
-						['stretch'] Stretch both dimension of each image to fill parent.
+					<td>Type of the image-wrapper fitting.<br>
+						[<em>'fit'</em>] Fit the longer dimension of each image to its parent<br>
+						[<em>'cover'</em>] Crop each image if needed to cover its parent.<br>
+						[<em>'stretch'</em>] Stretch both dimension of each image to fill parent.
 					</td>
 				</tr>
 				<tr>
 					<th>outputPos</th>
 					<td>String</td>
 					<td>'right'</td>
-					<td>Position of the zoomed output image.<br>
-						['top', 'right', 'bottom', 'left']
+					<td>Position of the zoomed output relative to the input image frame.<br>
+						[<em>'top'</em>, <em>'right'</em>, <em>'bottom'</em>, <em>'left'</em>]
 					</td>
 				</tr>
 				<tr>
 					<th>thumbPos</th>
 					<td>String</td>
 					<td>'bottom'</td>
-					<td>Position of thumbnail images.<br>
-						['top', 'right', 'bottom', 'left']
+					<td>Position of thumbnail images relative to the input image frame.<br>
+						[<em>'top'</em>, <em>'right'</em>, <em>'bottom'</em>, <em>'left'</em>]
 					</td>
 				</tr>
 				<tr>
@@ -114,79 +115,79 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 					<th>zmScale</th>
 					<td>Float</td>
 					<td>0.05</td>
-					<td></td>
+					<td>Zooming scale per wheel scroll.</td>
 				</tr>
 				<tr>
 					<th>zmMax</th>
 					<td>Integer</td>
 					<td>5</td>
-					<td></td>
+					<td>Maximum magnification.</td>
 				</tr>
 				<tr>
 					<th>reverseZm</th>
 					<td>Boolean</td>
 					<td>false</td>
-					<td></td>
+					<td>Reverse wheel scroll direction for zooming.</td>
 				</tr>
 				<tr>
 					<th>noticeTxt</th>
 					<td>String</td>
 					<td>''</td>
-					<td></td>
+					<td>Overlay text over output image frame.</td>
 				</tr>
 				<tr>
 					<th>noticeDur</th>
 					<td>Integer</td>
 					<td>2</td>
-					<td></td>
+					<td>Showing duration of output frame overlay text. (Seconds)</td>
 				</tr>
 				<tr>
 					<th>autoMovNav</th>
 					<td>Boolean</td>
 					<td>true</td>
-					<td></td>
+					<td>Change slide on mouseover thumbnail images.</td>
 				</tr>
 				<tr>
 					<th>autoHidNav</th>
 					<td>Boolean</td>
 					<td>false</td>
-					<td></td>
+					<td>Hide slide navigation arrows when every thumbnails are shown.</td>
 				</tr>
 				<tr>
 					<th>separToken</th>
 					<td>String</td>
-					<td>''</td>
-					<td></td>
+					<td>';'</td>
+					<td>Multiple data attributes separating token.</td>
 				</tr>
 				<tr>
 					<th>loadingImg</th>
 					<td>String</td>
 					<td>''</td>
-					<td></td>
+					<td>Source URL of the loading image.</td>
 				</tr>
 				<tr>
 					<th>imgErr</th>
 					<td>String</td>
 					<td>''</td>
-					<td></td>
+					<td>Source URL of the slide onerror image.</td>
 				</tr>
 				<tr>
 					<th>thumbErr</th>
 					<td>String</td>
 					<td>''</td>
-					<td></td>
+					<td>Source URL of the thumbnail onerror image.</td>
 				</tr>
 				<tr>
 					<th>vidErr</th>
 					<td>String</td>
 					<td>''</td>
-					<td></td>
+					<td>Source URL of the video onerror image.</td>
 				</tr>
 				<tr>
 					<th>vidBtn</th>
 					<td>String</td>
 					<td>''</td>
-					<td></td>
+					<td>Source URL of the play button image on video thumbnails.</td>
 				</tr>
 			</tbody>
 		</table>
@@ -201,16 +202,10 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 	</div>
 		
 	<div class="section">
-		<h2>Live Demo</h2>
-		<p>Markup</p>
-		<pre class="mb10">
-&lt;div class="<em>mz-object</em>"&gt;
-    &lt;div class="<em>mz-input</em>"&gt;
-&lt;/div&gt;</pre>
-
+		<h2>Sample</h2>
 		<!-- Royalty-free video/images from pexels.com & freepngs.com were used for demonstration. -->
 		<!-- Royalty-free icons from github.com/feathericons/feather were used for demonstration. -->
-		<div id="sample1" class="mallzoom-sample">
+		<div id="sample1" class="mallzoom-sample mb10">
 			<img src="sample/sample_vid.jpg"
 				data-mz-vidsrc="sample/sample00.mp4"
 				data-mz-vidtype="video/mp4"
@@ -235,8 +230,89 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 			<img src="sample/sample05.jpg"
 				data-mz-thumb="sample/thumbnail-not-exist">
 		</div>
+		
+		<ul class="sample-tab">
+			<li class="_active"><a href="#">Markup</a></li>
+			<li><a href="#">Style</a></li>
+			<li><a href="#">Script</a></li>
+		</ul>
+		<ul class="sample-content">
+			<li class="_active">
+				<pre>
+&lt;div id="<em>sample1</em>" class="<em>mallzoom-sample</em>"&gt;
+    &lt;img src="sample/sample_vid.jpg"
+        data-mz-vidsrc="sample/sample00.mp4"
+        data-mz-vidtype="video/mp4"
+        data-mz-vidattr="controls muted autoplay preload='none'"
+        data-mz-vidposter=""&gt;
+    &lt;img src="sample/sample_tube.jpg"
+        data-mz-tubeid="w4X5TpwsixY"
+        data-mz-tubeattr="&amp;controls=1&amp;autoplay=1&amp;loop=1"&gt;
+    &lt;img src="sample/sample01.jpg"
+        data-mz-thumb="sample/sample01t.jpg"
+        data-mz-output="sample/sample01b.jpg"
+        data-mz-flag="sample/sample-flag01.png"&gt;
+    &lt;img src="sample/sample02.jpg"
+        data-mz-thumb="sample/sample02t.jpg"
+        data-mz-flag="sample/sample-flag02.png; sample/sample-flag03.png"&gt;
+    &lt;img src="sample/sample03.jpg"
+        data-mz-flag="sample/sample-flag04.png"
+        data-mz-txt="15%"&gt;
+    &lt;img src="sample/sample04.jpg"
+        data-mz-txt="15%;50%"&gt;
+    &lt;img src="sample/image-not-exist"&gt;
+    &lt;img src="sample/sample05.jpg"
+        data-mz-thumb="sample/thumbnail-not-exist"&gt;
+&lt;/div&gt;</pre>
+			</li>
+			<li>
+				<pre>
+<em>#sample1</em> { width:400px; height:300px; border:4px solid #999; }</pre>
+			</li>
+			<li>
+				<pre class="mb10">
+&lt;div class="<em>mz-object</em>"&gt;
+    &lt;div class="<em>mz-input</em>"&gt;
+&lt;/div&gt;</pre>
+			</li>
+		</ul>
+	</div>
+	<div class="section">
+		<h2>Contact</h2>
+		<p>This plugin was designed and developed by Inpyo Jeon. <a class="link" title="prgmrj@gmail.com" href="mailto:prgmrj@gmail.com" target="_blank">Send An Email</a></p>
+		<p>Find more jQuery plugins and SPA projects on J-LABS. <a class="link" title="j-labs.io" href="http://j-labs.io" target="_blank">Visit Website</a></p>
 	</div>
 </div>
+<!-- 
+<div class="mz-obj-wrap">
+	<div class="mz-vault">
+		<img class="mz-item">
+	</div>
+	<div class="mz-obj">
+		<div class="mz-input-wrap">
+			<img class="mz-input sl1">
+			<video class="mz-input sl2"></video>
+			<iframe class="mz-input sl3"></iframe>
+		</div>
+		<div class="mz-over-wrap">
+			<img class="mz-over all">
+			<img class="mz-over sl1">
+			<img class="mz-over sl2-1">
+			<div class="mz-over sl2-2">
+				<p>text 2</p>
+			</div>
+			<div class="mz-over all">
+				<p>text all</p>
+			</div>
+		</div>
+		<div class="mz-magf-wrap">
+			<img class="mz-magf">
+		</div>
+		<div class="mz-output-wrap">
+			<img class="mz-output">
+		</div>
+	</div>
+</div> -->
 
 <script>
 	$('#sample1').mallzoom({
