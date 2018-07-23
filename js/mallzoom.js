@@ -47,15 +47,205 @@
 			_imgErr		= opt.imgErr,
 			_thumbErr	= opt.thumbErr,
 			_vidErr		= opt.vidErr,
-			_vidBtn		= opt.vidBtn;
+			_vidBtn		= opt.vidBtn;		
+		
+		return this.each(function(){
+			var $objWrap = $(this).addClass('mz-obj-wrap'),
+				_db	= [], // Instant Database
+				_idx = 0, // Current Index
+				_cur = {}; // Cursor Position
+			
+			/* Initialize */
+			mkGen();
+			function mkGen(){ // Generate Markup
+				var _mk =
+					'<div class="mz-vault"></div>' +
+					'<div class="mz-obj">' +
+						'<div class="mz-input-wrap"></div>' +
+						'<div class="mz-over-wrap"></div>' +
+						'<div class="mz-mag-wrap"></div>' +
+						'<div class="mz-thumb-wrap ' + _thumbPos + '">' +
+							'<a href="javascript:;" class="mz-nav prev">prev</a>' +
+							'<a href="javascript:;" class="mz-nav next">next</a>' +
+							'<div class="mz-thumb-crop">' +
+								'<ul class="mz-thumb-list"></ul>' +
+							'</div>'
+						'</div>' +
+						'<div class="mz-output-wrap"></div>' +
+					'</div>';
+
+				$objWrap.append(_mk).find('img').each(function(i){
+					$(this).addClass('mz-item sl' + i).appendTo('.mz-vault');
+				});
+			}
+			
+			var $vault = $objWrap.find('.mz-vault'),
+				$item = $objWrap.find('.mz-item'),
+				$obj = $objWrap.find('.mz-obj'),
+				$inputWrap = $objWrap.find('.mz-input-wrap'),
+				$overWrap = $objWrap.find('.mz-over-wrap'),
+				$magWrap = $objWrap.find('.mz-mag-wrap'),
+				$thumbWrap = $objWrap.find('.mz-thumb-wrap'),
+				$nav = $objWrap.find('.mz-nav'),
+				$navPrev = $objWrap.find('.mz-nav.prev'),
+				$navNext = $objWrap.find('.mz-nav.next'),
+				$thumbCrop = $objWrap.find('.mz-thumb-crop'),
+				$thumbList = $objWrap.find('.mz-thumb-list'),
+				$outputWrap = $objWrap.find('.mz-output-wrap');
+			
+			flagAdd();
+			function flagAdd(){ // Add Flags
+				if (_autoMovNav)
+					$obj.addClass('auto-move-nav');
+				if (_autoHidNav && $item.length <= _thumbCnt)
+					$obj.addClass('auto-hide-nav');
+			}
+
+			dbGen();
+			function dbGen(){ // Generate Instant Database
+				$item.each(function(i){
+					var _data = {};
+					
+					_data.src		= $(this).attr('src'); // Input Image Source
+					_data.thumb		= $(this).data('mz-thumb') || _data.src; // Thumbnail Source
+					_data.output	= $(this).data('mz-output') || _data.src; // Output Image Source
+					_data.flag		= $(this).data('mz-flag'); // Flag Image Source
+					_data.txt		= $(this).data('mz-txt'); // Overlay Text
+					_data.vidsrc	= $(this).data('mz-vidsrc'); // Video Source
+					_data.vidtype	= $(this).data('mz-vidtype'); // Video Type
+					_data.vidattr	= $(this).data('mz-vidattr'); // Video Attribute
+					_data.vidposter	= $(this).data('mz-vidposter'); // Video Poster
+					_data.tubeid	= $(this).data('mz-tubeid'); // Youtube Video ID
+					_data.tubeattr	= $(this).data('mz-tubeattr'); // Youtube Video Attribute
+					
+					_db[i] = _data;
+				});
+			}
+
+			thumbGen();
+			function thumbGen(){ // Generate Thumbnails
+				for (var i=0; i<_db.length; i++){
+					var _mk =
+						'<li class="mz-thumb-item">' +
+							'<img class="mz-thumb" src="' + _db[i].thumb + '" onerror="this.src=\''+ _thumbErr +'\'">' +
+						'</li>';
+					
+					$thumbList.append(_mk);
+				}
+			}
+			
+			var $thumbItem = $objWrap.find('.mz-thumb-item'),
+				$thumb = $objWrap.find('.mz-thumb');
+			
+			styleSet();
+			function styleSet(){ // Set Element Styles				
+				var _inputWrap = {
+						width	: parseInt($objWrap.css('width')),
+						height	: parseInt($objWrap.css('height')),
+						ratio	: parseInt($objWrap.css('width')) / parseInt($objWrap.css('height')),
+						bdwidth	: parseInt($objWrap.css('border-top-width')),
+						bdstyle	: $objWrap.css('border-top-style'),
+						bdcolor	: $objWrap.css('border-top-color')
+					},
+					_obj = {
+						width	: _inputWrap.width + _inputWrap.bdwidth * 2,
+						height	: _inputWrap.height + _inputWrap.bdwidth * 2
+					};
+				
+				switch (_thumbPos){
+					case 'top':
+						var _thumbItem = {
+							margin	: parseInt($thumbItem.css('margin-left')),
+							bdwidth	: parseInt($thumbItem.css('border-top-width')),
+							bdstyle	: $thumbItem.css('border-top-style'),
+							bdcolor	: $thumbItem.css('border-top-color')
+						};
+						
+						_thumbItem = {
+							width	: (_obj.width - (_thumbCnt - 1) * _thumbItem.margin - parseInt($navLeft.css('margin-right')) - parseInt($navRight.css('margin-left'))) / _thumbCnt,
+							height	: 
+						}
+						var _thumbWrap = {
+							width	: _obj.width
+						}
+						break;
+				}
+					_nav = {
+						width	: parseInt($nav.css('width')),
+						height	: parseInt($nav.css('height')),
+						bdwidth	: parseInt($nav.css('border-top-width'))
+					},
+					_thumbCrop = {
+						width	: _obj.width - _nav.width * 2 - _nav.bdwidth * 2,
+						height	: _obj.height - _nav.height * 2 - _nav.bdwidth * 2
+					};
+				
+				$objWrap.add($obj).css({
+					width	: _obj.width,
+					height	: _obj.height,
+					borderWidth : 0
+				});
+								
+				$inputWrap.add($outputWrap).css({
+					width		: _inputWrap.width,
+					height		: _inputWrap.height,
+					borderWidth	: _inputWrap.bdwidth,
+					borderStyle	: _inputWrap.bdstyle,
+					borderColor	: _inputWrap.bdcolor
+				});
+				
+				$thumbWrap.css({
+					width		: (_thumbPos == 'top' || _thumbPos == 'bottom' ? _obj.width : $thumb.height()),
+					height		: (_thumbPos == 'top' || _thumbPos == 'bottom' ? _obj.width : $thumb.height())
+				});
+				
+				$thumbCrop.css({
+					width: _obj.width - $nav.width() * 2,
+					height: _obj.width / _thumbCnt / _obj.ratio
+				});				
+				
+				$thumbItem.css({
+					width: $obj.width() / _thumbCnt,
+					height: $obj.width() / _thumbCnt / _obj.ratio
+				});
+				
+				
+				
+				$thumb.each(imgFit);
+			}
+			
+			showSlide(2);
+			function showSlide(index){
+				_idx = index;
+				
+				if (_db[_idx].vidsrc) {
+					var _mk =
+						'<video class="mz-input sl' + _idx + '"' + (_db[_idx].vidattr.replace('autoplay', '') || '') + (_db[_idx].vidposter ? 'poster="' + _db[_idx].vidposter + '"' : '') + '>' +
+							'<source src="' + _db[_idx].vidsrc + '" ' + (_db[_idx].vidtype ? '"type="' + _db[_idx].vidtype + '" ' : '') + '>' +
+						'Your browser doesn\'t support HTML video.</video>';
+					$inputWrap.html(_mk);
+				} else if (_db[_idx].tubeid) {
+					var _mk =
+						'<div class="mz-input sl' + _idx + '">' +
+							'<iframe src="https://www.youtube.com/embed/' + _db[_idx].tubeid + '?autoplay=0' + (_db[_idx].tubeattr.replace('&autoplay=1', '') || '') + '" frameborder="0" allowfullscreen></iframe>' +
+						'</div>';
+					$inputWrap.html(_mk);
+				} else {
+					var _mk =
+						'<img class="mz-input sl' + _idx + '" src="' + _db[_idx].src + '" onerror="this.src=\''+ _imgErr +'\'">';
+					$inputWrap.html(_mk);					
+					imgFit($obj.find('.mz-input'));
+				}
+			}
+		});
 		
 		function strTrim(str){ // Split Multiple Data By Token
 			return str.replace(/\s*,\s*/g, _separToken).split(_separToken);
 		}
 		
-		function imgFit(){ // Fit Image To Parent
-			var $img = $(this),
-				$wrap = $(this).parent(),
+		function imgFit(img){ // Fit Image To Parent
+			var $img = typeof img != 'object' ? $(this) : img,
+				$wrap = $img.parent(),
 				_img = {
 					width	: ntl($img[0]).width,
 					height	: ntl($img[0]).height,
@@ -66,7 +256,7 @@
 					height	: $wrap.innerHeight(),
 					ratio	: $wrap.innerWidth() / $wrap.innerHeight()
 				};
-
+			
 			if (_imgFit == 'stretch')
 				$img.css({
 					width	: '100%',
@@ -94,80 +284,5 @@
 		  		height	: output.height
 		  	};
 		}
-		
-		return this.each(function(){
-			var $objWrap = $(this).addClass('mz-obj-wrap'),
-				_obj = {
-					width	: $objWrap.innerWidth(),
-					height	: $objWrap.innerHeight(),
-					ratio	: $objWrap.innerWidth() / $objWrap.innerHeight(),
-					bdwidth	: parseInt($objWrap.css('border-top-width')),
-					bdstyle	: $objWrap.css('border-top-style'),
-					bdcolor	: $objWrap.css('border-top-color'),
-					bgcolor	: $objWrap.css('background-color')
-				},
-				_db	= [], // Instant Database
-				_idx = 0, // Current Index
-				_cur = {}; // Cursor Position
-			
-			mkGen();
-			
-			var $vault = $objWrap.find('.mz-vault'),
-				$item = $objWrap.find('.mz-item'),
-				$obj = $objWrap.find('.mz-obj'),
-				$inputWrap = $objWrap.find('.mz-input-wrap'),
-				$overWrap = $objWrap.find('.mz-over-wrap'),
-				$magfWrap = $objWrap.find('.mz-magf-wrap'),
-				$thumbWrap = $objWrap.find('.mz-thumb-wrap'),
-				$thumbList = $objWrap.find('.mz-thumb-list'),
-				$outputWrap = $objWrap.find('.mz-output-wrap');
-			
-			dbGen();
-			thumbGen();
-
-			function mkGen(){
-				var _mk =
-					'<div class="mz-vault"></div>' +
-					'<div class="mz-obj">' +
-						'<div class="mz-input-wrap"></div>' +
-						'<div class="mz-over-wrap"></div>' +
-						'<div class="mz-magf-wrap"></div>' +
-						'<div class="mz-thumb-wrap">' +
-							'<ul class="mz-thumb-list"></ul>' +
-						'</div>' +
-						'<div class="mz-output-wrap"></div>' +
-					'</div>';
-
-				$objWrap.append(_mk).find('img').each(function(i){
-					$(this).addClass('mz-item sl' + i).appendTo('.mz-vault');
-				});
-			}
-			
-			function dbGen(){
-				$item.each(function(i){
-					var _data = {};
-					
-					_data.src		= $(this).attr('src'); // Input Image Source
-					_data.thumb		= $(this).data('mz-thumb') || _data.src; // Thumbnail Source
-					_data.output	= $(this).data('mz-output') || _data.src; // Output Image Source
-					_data.flag		= $(this).data('mz-flag'); // Flag Image Source
-					_data.txt		= $(this).data('mz-txt'); // Overlay Text
-					_data.vidsrc	= $(this).data('mz-vidsrc'); // Video Source
-					_data.vidtype	= $(this).data('mz-vidtype'); // Video Type
-					_data.vidattr	= $(this).data('mz-vidattr'); // Video Attribute
-					_data.vidposter	= $(this).data('mz-vidposter'); // Video Poster
-					_data.tubeid	= $(this).data('mz-tubeid'); // Youtube Video ID
-					_data.tubeattr	= $(this).data('mz-tubeattr'); // Youtube Video Attribute
-					
-					_db[i] = _data;
-				});
-			}
-			
-			function thumbGen(){
-				for (var i=0; i<_db.length; i++){
-					$thumbList.append('<li class="mz-thumb-item"><img class="mz-thumb" src="' + _db[i].thumb + '"></li>');
-				}
-			}
-		});
 	};
 }(jQuery));

@@ -3,6 +3,7 @@
 <head>
 	<title>mallzoom.js - API</title>
 	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<link rel="stylesheet" href="css/api.css">
 	<link rel="stylesheet" href="css/mallzoom.css">
 	<script src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
@@ -46,7 +47,8 @@
 	<div class="section">
 		<h2>Usage</h2>
 		<pre>
-$('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
+$('<em>#object_id</em>').mallzoom(<em>options</em>);
+$('<em>.object_class</em>').mallzoom(<em>options</em>); // Multiple objects with the same options</pre>
 	</div>
 		
 	<div class="section">
@@ -60,7 +62,7 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 			</colgroup>
 			<thead>
 				<tr>
-					<th>Param</th>
+					<th>Parameter</th>
 					<th>Type</th>
 					<th>Default</th>
 					<th>Description</th>
@@ -213,7 +215,7 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 				data-mz-vidposter="">
 			<img src="sample/sample_tube.jpg"
 				data-mz-tubeid="w4X5TpwsixY"
-				data-mz-tubeattr="&controls=1&autoplay=1&loop=1">
+				data-mz-tubeattr="&controls=1&autoplay=1&loop=1&rel=0">
 			<img src="sample/sample01.jpg"
 				data-mz-thumb="sample/sample01t.jpg"
 				data-mz-output="sample/sample01b.jpg"
@@ -247,7 +249,7 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
         data-mz-vidposter=""&gt;
     &lt;img src="sample/sample_tube.jpg"
         data-mz-tubeid="w4X5TpwsixY"
-        data-mz-tubeattr="&amp;controls=1&amp;autoplay=1&amp;loop=1"&gt;
+        data-mz-tubeattr="&amp;controls=1&amp;autoplay=1&amp;loop=1&amp;rel=0"&gt;
     &lt;img src="sample/sample01.jpg"
         data-mz-thumb="sample/sample01t.jpg"
         data-mz-output="sample/sample01b.jpg"
@@ -316,9 +318,11 @@ $('<em>#sample</em>').mallzoom(<em>options</em>);</pre>
 
 <script>
 	$('#sample1').mallzoom({
+		imgFit		: 'cover',
 		outputPos	: 'right',
 		thumbPos	: 'bottom',
 		thumbCnt	: 5,
+		autoHidNav	: true,
 		flagOver	: 'icons/icon-zoom.png',
 		imgErr		: 'http://placehold.it/50x50/fff/000',
 		thumbErr	: 'http://placehold.it/50x50/fff/000'
